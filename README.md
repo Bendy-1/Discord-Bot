@@ -5,3 +5,4 @@ Features - <br/>
 !poppy - lists commands. <br/>
 Account balance system. <br/>
 List of basic commands to mess around with. <br/>
+- currently working on gambling system -
