@@ -6,4 +6,4 @@ Features - <br/>
 Account balance system. <br/>
 List of basic commands to mess around with. <br/>
 <br/>
-currently working on gambling system - <br/>
+currently working on a gambling system - <br/>
