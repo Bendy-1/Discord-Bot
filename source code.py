@@ -6,7 +6,7 @@ import os
 import random
 
 load_dotenv()
-token = os.getenv('DISCORD_TOKEN')
+token = os.getenv('DISCORD_TOKEN') #You must have a seperate file in the folder named .env that contains a variable called DISCORD_TOKEN=put your discord bots token here
 
 handler = logging.FileHandler(filename='discord.log', encoding='utf-8', mode='w')
 intents = discord.Intents.default()
@@ -27,10 +27,10 @@ class user_balance():
 
 @bot.event
 async def on_ready():
-    print(f"{bot.user.name} is Online.")
+    print(f"{bot.user.name} is Online.") 
 
     await bot.tree.sync()
-    print(f"slash commands synced")
+    print(f"slash commands synced") #The print statements are not needed they just add clarity for the person running the code
 
 @bot.event
 async def on_member_join(member):
@@ -41,13 +41,8 @@ async def on_message(message):
     if message.author == bot.user:
         return
 
-    if "job" in message.content.lower():
-        await message.delete()
-        await message.channel.send(f"{message.author.mention} - NO SLURS IN MY SERVER!")
-
-    elif "employed" in message.content.lower():
-        await message.delete()
-        await message.channel.send(f"{message.author.mention} - NO SLURS IN MY SERVER!")
+    if "meow" in message.content: #This section can be used for an automod as an autodelete/reply for banned words if you wish
+        await message.channel.send("Meow.")
 
     elif bot.user in message.mentions:
         await message.reply(f"Hello {message.author.display_name}! For a list of commands type !poppy")
@@ -65,6 +60,8 @@ async def poppy_command(interaction: discord.Interaction):
 "!poppy - I wonder 🤔\n"
 "!hello - haiii \n"
 "!arr - arr\n"
+"!checkbal - shows user their account balance or creates an account for them if they didnt have one \n"
+"!addbal - (Admin) allows user to add funds to their account"
 "!roll (put a number here) - rolls a number 1 through whatever you input \n"
 "!dm (message) - I will dm you the message you put into the command \n"
 f"!assign - assigns the Poppy meow role \n"
@@ -82,6 +79,8 @@ async def poppy(ctx):
 "!poppy - I wonder 🤔\n"
 "!hello - haiii \n"
 "!arr - arr\n"
+"!checkbal - shows user their account balance or creates an account for them if they didnt have one \n"
+"!addbal - (Admin) allows user to add funds to their account"
 "!roll (put a number here) - rolls a number 1 through whatever you input \n"
 "!dm (message) - I will dm you the message you put into the command \n"
 f"!assign - assigns the {poppy_meow_role} role \n"
@@ -110,7 +109,7 @@ async def roll(ctx, * ,msg):
 @commands.has_role(poppy_meow_role)
 async def assign(ctx):
     role = discord.utils.get(ctx.guild.roles, name=poppy_meow_role)
-    if role:
+    if role: #server must have the role Poppy Meow or replace the variable in poppy_meow_role for this to work
         await ctx.send(f"{ctx.author.mention} You already have the {role} role.")
     else:
         await ctx.send("Role does not exist!")
@@ -149,7 +148,7 @@ async def secret_error(ctx, error):
 
 @bot.command() #if the user types !dm hello world the *, msg breaks that hello world off into a msg variable 
 async def dm(ctx, *, msg):
-    if msg in ("job", "employment"):
+    if msg in (): #<- you can add banned words in this list
         await ctx.author.send(f"Hateful use of the !dm command is not tolerated.")
     else:
         await ctx.author.send(f"You said {msg}.")
@@ -168,10 +167,10 @@ async def dm(ctx, *, msg):
 
 @bot.command()
 async def checkbal(ctx):
-    found = False
+    found = False #Must have a file named Balances.txt in the folder your ide is working from
   
     with open("Balances.txt", 'r') as file:
-        for line in file:
+        for line in file: 
             name = line.strip().split()[0]
             bal = line.strip().split()[1]
 
@@ -187,7 +186,7 @@ async def checkbal(ctx):
             await ctx.reply(f"Created account for {ctx.author.mention}! You get a free $100!")
 
 @bot.command()
-@commands.has_role("Bank Admin")
+@commands.has_role("Bank Admin") #You can change this role name to the mod role name in your server or add the role Bank Admin
 async def addbalself(ctx, *, msg):
     found = False
     updated_lines = []
@@ -224,7 +223,7 @@ async def addbalself(ctx, error):
         await ctx.send(f"{ctx.author.mention} You must have the Bank Admin role to execute this command!")
 
 @bot.command()
-async def reply(ctx):
+async def meow(ctx):
     await ctx.reply("Meow.")
 
 bot.run(token, log_handler=handler, log_level=logging.DEBUG)
